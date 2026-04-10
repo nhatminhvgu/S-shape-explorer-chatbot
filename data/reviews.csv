@@ -1,0 +1,61 @@
+review_id,destination_id,user_id,rating,review_text,language,sentiment
+1,1,3,5,"Absolutely breathtaking! The limestone islands rising from the mist were unlike anything I had ever seen. The overnight cruise was worth every penny. Highly recommend booking a 2-night trip.",en,positive
+2,1,7,5,"Ha Long Bay exceeded all my expectations. The emerald water, the caves, the kayaking — perfect. Only downside is it can feel crowded in peak season.",en,positive
+3,2,1,5,"Sapa is magical. The terraced rice fields in autumn were the most beautiful thing I have seen in Vietnam. Trekking to the villages took effort but was deeply rewarding.",en,positive
+4,2,12,4,"Great experience overall. The scenery is stunning and the ethnic minority villages feel authentic. The mountain weather can be unpredictable so bring layers.",en,positive
+5,3,5,4,"Hanoi's Old Quarter is chaotic and wonderful. Street food on every corner, motorbikes everywhere, great energy. Hoan Kiem Lake at dawn is peaceful and beautiful.",en,positive
+6,3,18,4,"A fascinating city with so much history. The war museum and Ho Chi Minh Mausoleum are unmissable. Traffic is insane but that is part of the experience.",en,positive
+7,4,2,5,"Ninh Binh was a wonderful surprise. Rowing through the caves at Trang An with karst mountains all around was incredibly peaceful. Far less crowded than Ha Long.",en,positive
+8,4,9,4,"Loved the boat trip and the ancient capital. Bich Dong Pagoda built into the cliff is stunning. Rent a bicycle to explore the countryside properly.",en,positive
+9,5,6,5,"Ha Giang loop was the highlight of my entire Vietnam trip. The roads along the cliffs are terrifying and incredible. Go on a motorbike only if you are an experienced rider.",en,positive
+10,5,14,5,"The most dramatic landscapes I have ever seen. Ma Pi Leng Pass views are jaw-dropping. This is the real Vietnam away from the tourist trail.",en,positive
+11,6,11,4,"Mai Chau is a perfect escape from Hanoi. The stilt house homestay was comfortable and the family cooked amazing food. Cycling through rice paddies at sunrise was unforgettable.",en,positive
+12,6,3,4,"Charming and peaceful. The valley feels untouched and the local culture is genuine. A great short trip from Hanoi for those wanting countryside relaxation.",en,positive
+13,7,8,4,"Ba Be Lake is stunning and surprisingly unknown. We barely saw any other tourists. Kayaking on the lake and sleeping in a Tay stilt house was a highlight of our trip.",en,positive
+14,7,16,4,"Beautiful lake surrounded by forest. Very remote and peaceful. Wildlife everywhere. The boat tour through the river canyon is excellent.",en,positive
+15,8,4,3,"Moc Chau is charming in spring when the plum blossoms are out. Outside of blossom season it is a bit ordinary. Good food and dairy products though.",en,neutral
+16,8,13,4,"The tea hills and misty valleys are lovely. We went in February for the flowers and it was magical. The town itself is basic but comfortable.",en,positive
+17,9,7,5,"Bai Tu Long Bay is the real gem of the region. No big cruise ships, pristine islands, incredible diving. Far better than Ha Long if you want to escape the crowds.",en,positive
+18,9,1,5,"Absolutely stunning and almost entirely to ourselves. The caves were extraordinary. This is how Ha Long Bay would have felt 20 years ago.",en,positive
+19,10,15,4,"Ban Gioc Waterfall is massive and genuinely awe-inspiring. The area feels very remote and raw. Worth the long drive from Hanoi for the waterfall alone.",en,positive
+20,10,6,4,"Pac Bo Cave was more moving than I expected. The history is fascinating and the surrounding jungle is beautiful. A long journey but a very rewarding one.",en,positive
+21,11,2,5,"Hoi An is one of the most beautiful towns I have ever visited. The lantern-lit streets at night are magical. The food is outstanding — try Cao Lau and the white rose dumplings.",en,positive
+22,11,10,5,"Perfect combination of history, food, beach, and atmosphere. The tailors are excellent and very fast. Spend at least 3 days here to do it justice.",en,positive
+23,12,5,4,"Da Nang surprised me with how developed and clean it is. My Khe Beach is excellent. The Golden Bridge is worth seeing even if it is touristy.",en,positive
+24,12,17,5,"Great base for exploring central Vietnam. Day trips to Hoi An and Hue are easy. The city itself has great food and a very lively street scene.",en,positive
+25,13,4,5,"Hue's Citadel is incredibly impressive. The scale of it is hard to comprehend. The royal tombs outside the city are equally beautiful and much less crowded.",en,positive
+26,13,8,4,"The history of Hue is fascinating and the city has a different, more refined feel than Hanoi or Saigon. The food is incredible — try Bun Bo Hue.",en,positive
+27,14,9,5,"Phong Nha was the unexpected highlight of our trip. Paradise Cave is mind-blowing. The entire area feels wild and adventurous. Highly recommend cycling to the caves.",en,positive
+28,14,20,5,"The caves here are beyond imagination. Son Doong is the world's largest and the photos do not do it justice. The national park itself is pristine and breathtaking.",en,positive
+29,15,3,3,"My Son is interesting but the site itself was heavily damaged by war. The setting is atmospheric but you need good context to appreciate it fully. Better as a half-day trip.",en,neutral
+30,15,11,4,"Fascinating Cham ruins in a beautiful jungle valley. Less impressive than Angkor but historically significant. Best visited in the morning before the heat.",en,positive
+31,16,14,5,"Quy Nhon is the hidden gem of Vietnam's coast. The beaches are empty, the seafood is the freshest I have had anywhere, and the local people are incredibly friendly.",en,positive
+32,16,2,5,"An absolutely beautiful and authentic coastal town. No resort crowds, just real Vietnamese life and stunning beaches. I wish more travelers knew about this place.",en,positive
+33,17,7,4,"Ba Na Hills is touristy but genuinely fun. The Golden Bridge is incredible for photos. The French village atmosphere is charming and the cable car ride has great mountain views.",en,positive
+34,17,13,3,"Good for families with kids but feels artificial. The Golden Bridge is photogenic but the park is essentially a theme park. Overpriced for what it is.",en,neutral
+35,18,6,4,"Bach Ma is a real wilderness experience. Very few tourists and genuinely wild. The summit views on a clear day are extraordinary. Bring good hiking boots.",en,positive
+36,18,19,4,"Excellent birdwatching and the waterfalls are impressive. The road to the summit can be rough but the park is rewarding for active travelers who want solitude.",en,positive
+37,19,1,4,"Nha Trang's beach is lovely and the snorkeling trips are fun. The city is quite touristy and developed but that means good infrastructure and lots of food options.",en,positive
+38,19,12,3,"Beautiful location but very commercialized. The beach gets very crowded in summer. Still worth visiting for the bay views and seafood. Go off-season if possible.",en,neutral
+39,20,8,5,"Lang Co is a hidden paradise. The lagoon on one side and the ocean on the other is a truly special setting. Very peaceful and uncrowded. Underrated gem.",en,positive
+40,20,4,4,"A beautiful and quiet beach town. The setting between mountains and sea is stunning. Food options are limited but there are some excellent seafood restaurants.",en,positive
+41,21,10,4,"Ho Chi Minh City is overwhelming in the best way. The food scene is world class. Ben Thanh market, the War Remnants Museum, and the rooftop bars are all excellent.",en,positive
+42,21,16,4,"Saigon has an incredible energy. The pace of life is very fast but the city grows on you. Street food here is the best in Vietnam in my opinion.",en,positive
+43,22,5,5,"Phu Quoc is paradise. The beaches are some of the most beautiful in Southeast Asia. The night market is excellent. Stay at least 5 days to see different parts of the island.",en,positive
+44,22,9,5,"Absolutely stunning island. The water is unbelievably clear. Snorkeling was amazing. It is developing fast but still feels natural in the north of the island.",en,positive
+45,23,3,5,"Da Lat is Vietnam's most underrated city. The cool climate after the south is a relief. The flower gardens, waterfalls, and food markets are all wonderful.",en,positive
+46,23,15,5,"Magical highland city. The strawberry farms, coffee culture, and French villas give it a very unique atmosphere. Perfect for a romantic trip or a peaceful solo retreat.",en,positive
+47,24,11,5,"Con Dao is remote but absolutely worth the effort to reach. The beaches are immaculate and almost empty. The history of the prison camps is sobering and important.",en,positive
+48,24,2,5,"The most beautiful island I visited in Vietnam. Crystal clear water, pristine coral, green sea turtles nesting on the beach. A true natural paradise.",en,positive
+49,25,17,4,"The Mekong Delta is a different Vietnam entirely. The floating markets at dawn, the river life, the tropical fruit — all amazing. Can Tho is a great base.",en,positive
+50,25,6,4,"Fascinating boat trips and genuine local culture. The floating market is busy and commercial now but still interesting. The food in the delta is excellent.",en,positive
+51,26,13,3,"Vung Tau is fine for a quick weekend from Saigon but nothing special. The beaches are okay. Better than staying in the city but there are more beautiful places in Vietnam.",en,neutral
+52,26,7,3,"A convenient beach escape from Ho Chi Minh City. Gets very crowded on weekends with city dwellers. Better to go midweek. Seafood is very fresh and affordable.",en,neutral
+53,27,4,4,"Can Tho is a lovely city and a perfect base for the delta. The riverfront at night is beautiful and the market area has great street food. The floating market dawn trip is a must.",en,positive
+54,27,18,4,"Genuinely charming southern city. Friendlier and slower than Saigon. The floating market is smaller than expected but the boat journey through the waterways is excellent.",en,positive
+55,28,9,5,"Cat Tien night safari was one of the best wildlife experiences of my life. Saw civets, flying squirrels, owls, and a giant forest scorpion. The jungle atmosphere is incredible.",en,positive
+56,28,14,4,"Excellent national park for nature lovers. The birding at dawn is extraordinary. The staff are knowledgeable and passionate. A genuine wilderness experience.",en,positive
+57,29,1,4,"Mui Ne sand dunes at sunrise were stunning. The kite surfers in the afternoon are impressive to watch. The resort strip is quite touristy but the town itself is charming.",en,positive
+58,29,20,4,"Fun and laid-back beach destination. The red dunes are beautiful at golden hour. Good spot for water sports. Quieter and cheaper than Nha Trang.",en,positive
+59,30,16,4,"Cu Chi Tunnels is a powerful and humbling experience. Crawling through the narrow tunnels gives real insight into wartime conditions. Essential Vietnam history lesson.",en,positive
+60,30,5,4,"Very informative and moving. The scale of the tunnel system is extraordinary. A half-day trip from Ho Chi Minh City that I would recommend to every visitor to Vietnam.",en,positive

@@ -10,7 +10,6 @@ import sys
 import streamlit as st
 import pandas as pd
 
-# Make sure src/ is importable
 sys.path.insert(0, os.path.dirname(__file__))
 
 from src.data_processing.loader import load_all

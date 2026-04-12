@@ -42,7 +42,7 @@ The app will open automatically in your browser at `http://localhost:8501`.
 
 ---
 
-## Project Structure
+## Project Structure (AI generated)
 
 ```
 S-shape-explorer-chatbot/
@@ -84,7 +84,7 @@ S-shape-explorer-chatbot/
 
 ## How to Use
 
-### Chat input
+### Input in chat
 
 Type your travel preferences in the chat box:
 

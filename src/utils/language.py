@@ -6,6 +6,12 @@ Usage: get_string('key', 'en') or get_string('key', 'vi')
 
 STRINGS = {
     "en": {
+        # Vietnamese-mode notice (shown when user switches to Vietnamese)
+        "vi_notice": (
+            "ℹ️ **Note:** Due to cost constraints, all recommendations are displayed in English. "
+            "Please copy any text and paste it into **Google Translate** to read in Vietnamese. Thank you!"
+        ),
+
         # App title and headers
         "app_title": "Vietnam Travel Chatbot",
         "app_subtitle": "Your personalized Vietnam travel guide",
@@ -109,6 +115,12 @@ STRINGS = {
     },
 
     "vi": {
+        # Vietnamese-mode notice
+        "vi_notice": (
+            "ℹ️ **Lưu ý:** Vì vấn đề chi phí, nội dung gợi ý vẫn hiển thị bằng tiếng Anh. "
+            "Bạn hãy copy nội dung và dán vào **Google Dịch** để đọc tiếng Việt. Xin cám ơn! 🙏"
+        ),
+
         # App title and headers
         "app_title": "Chatbot Du Lịch Việt Nam",
         "app_subtitle": "Hướng dẫn du lịch Việt Nam cá nhân hóa cho bạn",

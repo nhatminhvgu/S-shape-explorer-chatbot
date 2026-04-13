@@ -20,7 +20,7 @@ from src.utils.language import get_string
 from src.utils.helpers import format_tags, format_best_for, price_level_label, region_label, stars
 
 
-# ─────────────────────────────── Page config ────────────────────────────────
+#  Page config and custom CSS for styling
 
 st.set_page_config(
     page_title="Vietnam Travel Chatbot",
@@ -30,7 +30,7 @@ st.set_page_config(
 )
 
 
-# ─────────────────────────────── Custom CSS ──────────────────────────────────
+# Web styling for destination cards and chat bubbles
 
 st.markdown("""
 <style>
@@ -259,6 +259,10 @@ def main():
     with top_col1:
         st.title(get_string("app_title", lang))
         st.caption(get_string("app_subtitle", lang))
+
+    # Vietnamese notice banner — shown whenever the user switches to Vietnamese
+    if lang == "vi":
+        st.info(get_string("vi_notice", lang))
 
     # Init conversation manager once
     if st.session_state.conversation is None:

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vietnam Travel Guide — AI Chatbot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ocean: {
+              50:  '#f0f7ff', 100: '#e0f0fe', 200: '#b9e0fd',
+              300: '#7cc8fb', 400: '#36aaf5', 500: '#0c8ee1',
+              600: '#006dbf', 700: '#0057a0', 800: '#044982', 900: '#0a3c6b',
+            },
+            sand: {
+              50:  '#fdf8f0', 100: '#faf0dc', 200: '#f3ddb8',
+              300: '#e9c88b', 400: '#dba95a', 500: '#c98b3a',
+            },
+            coral: {
+              400: '#fb7185', 500: '#f43f5e', 600: '#e11d48', 700: '#be123c',
+            },
+          },
+          fontFamily: {
+            sans: ['"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Scrollbars ── */
+    .chat-scroll::-webkit-scrollbar        { width: 5px; }
+    .chat-scroll::-webkit-scrollbar-track  { background: transparent; }
+    .chat-scroll::-webkit-scrollbar-thumb  { background: #cbd5e1; border-radius: 4px; }
+    .cards-row::-webkit-scrollbar          { height: 4px; }
+    .cards-row::-webkit-scrollbar-thumb    { background: #e2e8f0; border-radius: 2px; }
+
+    /* ── Typing dots ── */
+    @keyframes bounce-dot {
+      0%, 60%, 100% { transform: translateY(0); }
+      30%           { transform: translateY(-5px); }
+    }
+    .dot                 { animation: bounce-dot 1.4s infinite ease-in-out; }
+    .dot:nth-child(2)    { animation-delay: 0.18s; }
+    .dot:nth-child(3)    { animation-delay: 0.36s; }
+
+    /* ── Message entrance ── */
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .msg-enter { animation: slide-up 0.28s ease both; }
+
+    /* ── Category gradient placeholders ── */
+    .img-beach       { background: linear-gradient(135deg, #0ea5e9, #06b6d4, #67e8f9); }
+    .img-mountain    { background: linear-gradient(135deg, #15803d, #16a34a, #86efac); }
+    .img-city        { background: linear-gradient(135deg, #6d28d9, #7c3aed, #c4b5fd); }
+    .img-culture     { background: linear-gradient(135deg, #c2410c, #ea580c, #fdba74); }
+    .img-food        { background: linear-gradient(135deg, #b45309, #d97706, '#fde68a'); }
+    .img-nature      { background: linear-gradient(135deg, #0f766e, #059669, '#6ee7b7'); }
+    .img-historical  { background: linear-gradient(135deg, '#78350f', '#92400e', '#d97706'); }
+    .img-adventure   { background: linear-gradient(135deg, #9f1239, '#dc2626', '#fca5a5'); }
+    .img-relaxation  { background: linear-gradient(135deg, '#0369a1', '#7c3aed', '#93c5fd'); }
+    .img-default     { background: linear-gradient(135deg, '#0057a0', '#0c8ee1', '#7cc8fb'); }
+
+    /* ── Star color ── */
+    .stars { color: #f59e0b; }
+
+    /* ── Input focus ring ── */
+    .input-wrap:focus-within {
+      border-color: #36aaf5;
+      box-shadow: 0 0 0 3px rgba(54, 170, 245, 0.15);
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-ocean-50 via-slate-50 to-sand-100 min-h-screen flex items-center justify-center p-3 sm:p-6 font-sans">
+
+  <!-- ══════════════════════ MAIN WINDOW ══════════════════════ -->
+  <div class="w-full max-w-xl h-[93vh] sm:h-[88vh] flex flex-col bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100/80">
+
+    <!-- ── HEADER ── -->
+    <header class="flex-shrink-0 bg-gradient-to-r from-ocean-800 to-ocean-600 px-5 py-4 flex items-center gap-3">
+      <div class="w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center text-2xl backdrop-blur-sm select-none">
+        🗺️
+      </div>
+      <div class="flex-1 min-w-0">
+        <h1 class="text-white font-bold text-base sm:text-lg leading-tight truncate">Vietnam Travel Guide</h1>
+        <div class="flex items-center gap-1.5 mt-0.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+          <p class="text-ocean-200 text-xs truncate">AI-powered · 30 destinations · Hybrid CBF+CF</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <button id="langToggle" onclick="toggleLanguage()"
+          class="bg-white/20 hover:bg-white/30 text-white text-xs sm:text-sm px-3 py-1.5 rounded-full transition-all font-semibold">
+          🇬🇧 EN
+        </button>
+        <button onclick="clearChat()" title="Clear chat"
+          class="bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ── QUICK CHIPS ── -->
+    <div class="flex-shrink-0 px-4 py-2.5 bg-slate-50/80 border-b border-slate-100 flex items-center gap-2 overflow-x-auto cards-row">
+      <span class="text-xs text-slate-400 font-medium whitespace-nowrap select-none">Quick:</span>
+      <button onclick="quickSearch('best beaches for couples')"
+        class="bg-cyan-50 hover:bg-cyan-100 active:scale-95 text-cyan-700 text-xs px-3 py-1.5 rounded-full whitespace-nowrap transition-all font-medium border border-cyan-200">
+        🏖️ Beach
+      </button>
+      <button onclick="quickSearch('mountain trekking adventure')"
+        class="bg-green-50 hover:bg-green-100 active:scale-95 text-green-700 text-xs px-3 py-1.5 rounded-full whitespace-nowrap transition-all font-medium border border-green-200">
+        🏔️ Mountains
+      </button>
+      <button onclick="quickSearch('city culture and street food')"
+        class="bg-purple-50 hover:bg-purple-100 active:scale-95 text-purple-700 text-xs px-3 py-1.5 rounded-full whitespace-nowrap transition-all font-medium border border-purple-200">
+        🏙️ City Life
+      </button>
+      <button onclick="quickSearch('budget friendly destinations')"
+        class="bg-amber-50 hover:bg-amber-100 active:scale-95 text-amber-700 text-xs px-3 py-1.5 rounded-full whitespace-nowrap transition-all font-medium border border-amber-200">
+        💰 Budget
+      </button>
+      <button onclick="quickSearch('romantic luxury trip')"
+        class="bg-rose-50 hover:bg-rose-100 active:scale-95 text-rose-700 text-xs px-3 py-1.5 rounded-full whitespace-nowrap transition-all font-medium border border-rose-200">
+        ✨ Luxury
+      </button>
+    </div>
+
+    <!-- ── MESSAGES ── -->
+    <main id="chatMessages" class="flex-1 overflow-y-auto chat-scroll px-4 py-5 space-y-4">
+      <!-- Injected by JS -->
+    </main>
+
+    <!-- ── TYPING INDICATOR ── -->
+    <div id="typingIndicator" class="hidden flex-shrink-0 px-4 pb-2">
+      <div class="flex items-end gap-2.5">
+        <div class="w-8 h-8 rounded-full bg-ocean-100 flex items-center justify-center text-sm flex-shrink-0">🤖</div>
+        <div class="bg-slate-100 rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1.5 items-center">
+          <span class="dot w-2 h-2 bg-slate-400 rounded-full block"></span>
+          <span class="dot w-2 h-2 bg-slate-400 rounded-full block"></span>
+          <span class="dot w-2 h-2 bg-slate-400 rounded-full block"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── INPUT AREA ── -->
+    <footer class="flex-shrink-0 px-4 pt-3 pb-4 bg-white border-t border-slate-100">
+      <div class="input-wrap flex items-center gap-3 bg-slate-50 rounded-2xl px-4 py-2.5 border border-slate-200 transition-all duration-200">
+        <span class="text-lg select-none">✈️</span>
+        <input
+          id="userInput"
+          type="text"
+          placeholder="Ask about Vietnam destinations..."
+          class="flex-1 bg-transparent text-slate-700 placeholder-slate-400 text-sm outline-none py-1"
+          onkeydown="handleKeyDown(event)"
+          autocomplete="off"
+        />
+        <button
+          id="sendBtn"
+          onclick="sendMessage()"
+          class="bg-gradient-to-br from-coral-500 to-coral-600 hover:from-coral-600 hover:to-coral-700 disabled:opacity-50 disabled:cursor-not-allowed text-white p-2.5 rounded-xl transition-all hover:shadow-lg active:scale-95 flex-shrink-0"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+          </svg>
+        </button>
+      </div>
+      <p id="inputHint" class="text-center text-xs text-slate-400 mt-2 leading-snug">
+        Try: "Best beaches for couples" · "Budget trips in North Vietnam"
+      </p>
+    </footer>
+  </div>
+
+  <!-- ══════════════════════ JAVASCRIPT ══════════════════════ -->
+  <script>
+    // ─────────────────────────── Config ──────────────────────────────────────
+    /**
+     * API_BASE: root URL of your backend.
+     * Leave empty ('') for same-origin (e.g. Flask/FastAPI on the same host).
+     * Example: 'http://localhost:5000'
+     *
+     * Expected POST /chat  body:    { message: string, language: 'en'|'vi' }
+     * Expected response JSON:
+     * {
+     *   "message": "Here are my top picks...",
+     *   "recommendations": [
+     *     {
+     *       "rank": 1,
+     *       "name": "Ha Long Bay",       "name_vi": "Vịnh Hạ Long",
+     *       "region": "north",
+     *       "primary_category": "nature",
+     *       "tags": "beach,nature,sightseeing",    // comma-separated
+     *       "description": "...",                  "description_vi": "...",
+     *       "price_level": 2,                      // 1 | 2 | 3
+     *       "avg_rating": 4.8,
+     *       "num_reviews": 1250,
+     *       "best_for": "couple|family|friends",   // pipe-separated
+     *       "explanation": "Why the recommender chose this"
+     *     }
+     *   ]
+     * }
+     */
+    const API_BASE = '';
+
+    // ─────────────────────────── i18n strings ────────────────────────────────
+    let lang = 'en';
+
+    const i18n = {
+      en: {
+        greeting:    "Hi! I'm your Vietnam travel guide 🌟 — where would you like to explore?",
+        greeting2:   "Tell me what kind of trip you're dreaming of — beaches, mountains, city life, culture, food — and I'll find the perfect destinations for you!",
+        placeholder: "Ask about Vietnam destinations...",
+        hint:        'Try: "Best beaches for couples" · "Budget trips in North Vietnam"',
+        viewDetails: "🗺️ View Details",
+        reviews:     "reviews",
+        whyVisit:    "Why visit",
+        priceLabels: { 1: '$ Budget', 2: '$$ Mid-range', 3: '$$$ Premium' },
+        regionLabels:{ north: 'North Vietnam', central: 'Central Vietnam', south: 'South Vietnam' },
+        langLabel:   '🇬🇧 EN',
+        clearMsg:    "Chat cleared. What destination shall we explore next? 🗺️",
+        detailMsg:   name => `What would you like to know about <strong>${name}</strong>? Activities, best time to visit, accommodation, or local food? 🌴`,
+        noRecs:      "I couldn't find a match — try describing your dream trip differently!",
+      },
+      vi: {
+        greeting:    "Xin chào! Tôi là hướng dẫn du lịch Việt Nam của bạn 🌟 — bạn muốn khám phá đâu?",
+        greeting2:   "Hãy cho tôi biết bạn mơ ước chuyến đi như thế nào — biển, núi, thành phố, văn hóa, ẩm thực — và tôi sẽ tìm điểm đến hoàn hảo!",
+        placeholder: "Hỏi về các điểm đến Việt Nam...",
+        hint:        'Thử: "Biển đẹp cho cặp đôi" · "Du lịch tiết kiệm miền Bắc"',
+        viewDetails: "🗺️ Xem Chi Tiết",
+        reviews:     "đánh giá",
+        whyVisit:    "Tại sao nên đến",
+        priceLabels: { 1: '$ Tiết kiệm', 2: '$$ Tầm trung', 3: '$$$ Cao cấp' },
+        regionLabels:{ north: 'Miền Bắc', central: 'Miền Trung', south: 'Miền Nam' },
+        langLabel:   '🇻🇳 VI',
+        clearMsg:    "Đã xóa cuộc trò chuyện. Bạn muốn khám phá điểm đến nào tiếp theo? 🗺️",
+        detailMsg:   name => `Bạn muốn biết gì về <strong>${name}</strong>? Hoạt động, thời điểm tốt nhất, chỗ ở hay ẩm thực địa phương? 🌴`,
+        noRecs:      "Tôi không tìm thấy điểm đến phù hợp — hãy mô tả theo cách khác nhé!",
+      },
+    };
+
+    const t = key => i18n[lang][key] ?? key;
+
+    // ─────────────────────────── Category maps ───────────────────────────────
+    const CAT_IMG = {
+      beach:'img-beach', mountain:'img-mountain', city:'img-city',
+      culture:'img-culture', food:'img-food', nature:'img-nature',
+      historical:'img-historical', adventure:'img-adventure',
+      relaxation:'img-relaxation',
+    };
+
+    const CAT_ICON = {
+      beach:'🏖️', mountain:'🏔️', city:'🏙️', culture:'🏛️',
+      food:'🍜', nature:'🌿', historical:'🏯', adventure:'⛰️',
+      relaxation:'🌊', default:'📍',
+    };
+
+    // ─────────────────────────── DOM refs ────────────────────────────────────
+    const chatEl    = () => document.getElementById('chatMessages');
+    const inputEl   = () => document.getElementById('userInput');
+    const typingEl  = () => document.getElementById('typingIndicator');
+    const sendBtn   = () => document.getElementById('sendBtn');
+
+    function scrollBottom() {
+      const el = chatEl();
+      el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+    }
+
+    // ─────────────────────────── Helpers ─────────────────────────────────────
+    function escHtml(s) {
+      return String(s ?? '')
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+    }
+
+    function renderStars(rating) {
+      const n = Math.round(parseFloat(rating) * 2) / 2; // nearest 0.5
+      let out = '';
+      for (let i = 1; i <= 5; i++) {
+        if (i <= n)             out += '★';
+        else if (i - 0.5 <= n) out += '⯨';   // half-star (Unicode)
+        else                    out += '☆';
+      }
+      return out;
+    }
+
+    // ─────────────────────────── Message renderers ───────────────────────────
+    function appendUserMessage(text) {
+      const wrap = document.createElement('div');
+      wrap.className = 'flex justify-end msg-enter';
+      wrap.innerHTML = `
+        <div class="max-w-[78%] bg-gradient-to-br from-ocean-600 to-ocean-800 text-white
+                    rounded-2xl rounded-br-sm px-4 py-3 text-sm leading-relaxed shadow-md">
+          ${escHtml(text)}
+        </div>`;
+      chatEl().appendChild(wrap);
+      scrollBottom();
+    }
+
+    function appendBotMessage(html) {
+      const wrap = document.createElement('div');
+      wrap.className = 'flex items-end gap-2.5 msg-enter';
+      wrap.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-ocean-100 border border-ocean-200
+                    flex items-center justify-center text-base flex-shrink-0 mb-1 select-none">
+          🤖
+        </div>
+        <div class="max-w-[78%] bg-slate-100 text-slate-700 rounded-2xl rounded-bl-sm
+                    px-4 py-3 text-sm leading-relaxed shadow-sm">
+          ${html}
+        </div>`;
+      chatEl().appendChild(wrap);
+      scrollBottom();
+    }
+
+    // ─────────────────────────── Destination Card ────────────────────────────
+    /**
+     * createDestinationCard(dest, rank)
+     *
+     * Reads from the dest object that mirrors your destinations.csv columns
+     * plus the `explanation` field added by your HybridRecommender.
+     *
+     * All untrusted strings are escaped before insertion to prevent XSS.
+     */
+    function createDestinationCard(dest, rank) {
+      const name    = (lang === 'vi' && dest.name_vi)        ? dest.name_vi        : dest.name;
+      const desc    = (lang === 'vi' && dest.description_vi) ? dest.description_vi : dest.description;
+      const cat     = (dest.primary_category || 'default').toLowerCase();
+      const imgCls  = CAT_IMG[cat]  || 'img-default';
+      const icon    = CAT_ICON[cat] || CAT_ICON.default;
+
+      const rating     = parseFloat(dest.avg_rating || 0);
+      const starStr    = renderStars(rating);
+      const reviewsStr = dest.num_reviews
+        ? `(${Number(dest.num_reviews).toLocaleString()} ${t('reviews')})`
+        : '';
+
+      const tags = (dest.tags || '').split(',').map(s => s.trim()).filter(Boolean);
+      const tagHtml = tags.map(tag =>
+        `<span class="bg-ocean-50 text-ocean-700 border border-ocean-100 text-xs px-2 py-0.5 rounded-full font-medium">${escHtml(tag)}</span>`
+      ).join('');
+
+      const bestFor   = (dest.best_for || '').split('|').map(s => s.trim()).filter(Boolean).join(' · ');
+      const regionStr = (t('regionLabels')[dest.region]) || escHtml(dest.region || '');
+      const priceStr  = (t('priceLabels')[parseInt(dest.price_level)]) || '';
+      const snippet   = (desc || '').slice(0, 130) + ((desc || '').length > 130 ? '…' : '');
+
+      const card = document.createElement('div');
+      card.className = 'msg-enter';
+
+      card.innerHTML = `
+        <article class="bg-white rounded-2xl overflow-hidden border border-slate-200
+                        shadow-md hover:shadow-xl transition-all duration-300 w-full group">
+
+          <!-- ── Banner image area ── -->
+          <div class="${imgCls} relative h-32 flex items-center justify-center overflow-hidden">
+            <!-- Subtle noise texture overlay -->
+            <div class="absolute inset-0 bg-black/10"></div>
+            <!-- Category icon -->
+            <span class="text-5xl drop-shadow-xl relative z-10 group-hover:scale-110 transition-transform duration-300">${icon}</span>
+            <!-- Rank badge -->
+            <div class="absolute top-2.5 left-3 bg-black/40 backdrop-blur-sm text-white text-xs
+                        px-2.5 py-0.5 rounded-full font-bold tracking-wide z-10">
+              #${rank}
+            </div>
+            <!-- Region badge -->
+            <div class="absolute top-2.5 right-3 bg-white/90 backdrop-blur-sm text-slate-700 text-xs
+                        px-2.5 py-0.5 rounded-full font-semibold z-10">
+              ${escHtml(regionStr)}
+            </div>
+          </div>
+
+          <!-- ── Card body ── -->
+          <div class="p-4">
+
+            <!-- Title + stars -->
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <h3 class="font-bold text-slate-800 text-base leading-tight flex-1">${escHtml(name)}</h3>
+              <div class="flex-shrink-0 text-right">
+                <div class="stars text-sm leading-none">${starStr}</div>
+                <div class="text-xs text-slate-400 mt-0.5">${rating.toFixed(1)} ${reviewsStr}</div>
+              </div>
+            </div>
+
+            <!-- Description snippet -->
+            <p class="text-slate-500 text-xs leading-relaxed mb-3">${escHtml(snippet)}</p>
+
+            <!-- Tags -->
+            ${tagHtml ? `<div class="flex flex-wrap gap-1 mb-3">${tagHtml}</div>` : ''}
+
+            <!-- Meta row -->
+            <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 mb-3">
+              ${priceStr  ? `<span>💰 <span class="font-medium text-slate-600">${escHtml(priceStr)}</span></span>` : ''}
+              ${bestFor   ? `<span>👥 <span class="font-medium text-slate-600">${escHtml(bestFor)}</span></span>` : ''}
+            </div>
+
+            <!-- Why visit box -->
+            ${dest.explanation ? `
+            <div class="bg-gradient-to-r from-ocean-50 to-sand-50 border border-ocean-100
+                        rounded-xl px-3 py-2.5 mb-3">
+              <p class="text-xs text-ocean-800 leading-relaxed">
+                <span class="font-semibold">✨ ${t('whyVisit')}:</span>
+                ${escHtml(dest.explanation)}
+              </p>
+            </div>` : ''}
+
+            <!-- CTA -->
+            <button
+              onclick="viewDetails(${JSON.stringify(escHtml(name))})"
+              class="w-full bg-gradient-to-r from-coral-500 to-coral-600
+                     hover:from-coral-600 hover:to-coral-700
+                     text-white text-sm font-semibold py-2.5 rounded-xl
+                     transition-all duration-200 hover:shadow-md active:scale-[0.98]">
+              ${t('viewDetails')}
+            </button>
+          </div>
+        </article>`;
+      return card;
+    }
+
+    /**
+     * appendRecommendations(destinations)
+     *
+     * Renders a horizontally-scrollable strip of DestinationCards beneath
+     * the bot's avatar, matching the "rich attachment" pattern of modern
+     * messaging apps. Each card snaps into place on mobile.
+     */
+    function appendRecommendations(destinations) {
+      if (!destinations || destinations.length === 0) return;
+
+      const wrap = document.createElement('div');
+      wrap.className = 'flex items-start gap-2.5 msg-enter';
+      wrap.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-ocean-100 border border-ocean-200
+                    flex items-center justify-center text-base flex-shrink-0 mt-1 select-none">
+          🤖
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="cards-row flex gap-3 overflow-x-auto pb-1 snap-x snap-mandatory -mr-1 pr-1">
+          </div>
+        </div>`;
+
+      const row = wrap.querySelector('.cards-row');
+      destinations.forEach((dest, i) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'flex-shrink-0 w-72 snap-start';
+        wrapper.appendChild(createDestinationCard(dest, dest.rank ?? i + 1));
+        row.appendChild(wrapper);
+      });
+
+      chatEl().appendChild(wrap);
+      scrollBottom();
+    }
+
+    // ─────────────────────────── Typing indicator ────────────────────────────
+    function showTyping() { typingEl().classList.remove('hidden'); scrollBottom(); }
+    function hideTyping() { typingEl().classList.add('hidden'); }
+
+    // ─────────────────────────── Core: send message ──────────────────────────
+    async function sendMessage(overrideText) {
+      const input   = inputEl();
+      const message = overrideText ?? input.value.trim();
+      if (!message) return;
+
+      input.value = '';
+      appendUserMessage(message);
+      showTyping();
+      sendBtn().disabled = true;
+
+      try {
+        /* ── BACKEND INTEGRATION POINT ──────────────────────────────────────
+         *
+         * Your Python backend currently runs via Streamlit. To connect this
+         * HTML frontend you have two options:
+         *
+         *   Option A — Add a Flask/FastAPI micro-API:
+         *     from flask import Flask, request, jsonify
+         *     app = Flask(__name__)
+         *
+         *     @app.post('/chat')
+         *     def chat():
+         *         body = request.json
+         *         bot_msg, results = conv.process_turn(body['message'], {})
+         *         recs = []
+         *         if results is not None:
+         *             for rank, (_, row) in enumerate(results.iterrows(), 1):
+         *                 d = row.to_dict()
+         *                 d['rank'] = rank
+         *                 d['explanation'] = conv.get_explanation(row)
+         *                 recs.append(d)
+         *         return jsonify({ 'message': bot_msg, 'recommendations': recs })
+         *
+         *   Option B — Streamlit custom_component bridge (keep Streamlit):
+         *     Use streamlit-chat or embed this HTML via st.components.v1.html()
+         *     with bidirectional postMessage communication.
+         *
+         * ────────────────────────────────────────────────────────────────── */
+        const res = await fetch(`${API_BASE}/chat`, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ message, language: lang }),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        hideTyping();
+        if (data.message)         appendBotMessage(data.message);
+        if ((data.recommendations ?? []).length > 0)
+          appendRecommendations(data.recommendations);
+
+      } catch {
+        // ── Demo mode: shows the UI working without a live backend ──────────
+        hideTyping();
+        simulateDemo(message);
+      }
+
+      sendBtn().disabled = false;
+    }
+
+    // ─────────────────────────── Demo / fallback data ────────────────────────
+    const DEMO_RESPONSES = [
+      "Here are my top picks based on your query! Swipe through the cards to explore. 🌟",
+      "Great choice! I've found some amazing destinations that match what you're looking for. ✨",
+      "Vietnam has so much to offer! Here are the places I think you'll love most. 🗺️",
+    ];
+
+    const DEMO_DESTINATIONS = [
+      {
+        rank: 1, name: "Ha Long Bay", name_vi: "Vịnh Hạ Long",
+        region: "north", primary_category: "nature",
+        tags: "beach,nature,sightseeing,relaxation",
+        description: "Ha Long Bay is a UNESCO World Heritage Site with thousands of limestone islands rising from emerald waters. Perfect for boat cruises, kayaking, and unforgettable sunsets.",
+        description_vi: "Vịnh Hạ Long là Di sản Thế giới UNESCO với hàng nghìn đảo đá vôi nhô lên từ làn nước xanh ngọc. Lý tưởng cho du thuyền, chèo kayak và ngắm hoàng hôn tuyệt đẹp.",
+        price_level: 2, avg_rating: 4.8, num_reviews: 1250,
+        best_for: "couple|family|friends",
+        explanation: "Consistently top-rated with outstanding natural beauty and diverse activities for all travel styles.",
+      },
+      {
+        rank: 2, name: "Hoi An", name_vi: "Hội An",
+        region: "central", primary_category: "culture",
+        tags: "culture,historical,food,sightseeing",
+        description: "Hoi An Ancient Town is a perfectly preserved trading port with lantern-lit streets, tailor shops, and incredible cuisine. A UNESCO Heritage Site blending history and charm.",
+        description_vi: "Phố cổ Hội An là cảng thương mại được bảo tồn hoàn hảo với đèn lồng, tiệm may và ẩm thực tuyệt vời.",
+        price_level: 1, avg_rating: 4.7, num_reviews: 1580,
+        best_for: "couple|solo|friends",
+        explanation: "Perfect cultural immersion with photogenic streets, cooking classes, and beach access just 5 km away.",
+      },
+      {
+        rank: 3, name: "Sapa", name_vi: "Sa Pa",
+        region: "north", primary_category: "mountain",
+        tags: "mountain,adventure,culture,trekking,nature",
+        description: "Sapa is a misty highland town famous for dramatic terraced rice fields and colorful ethnic minority markets. Excellent for trekking to Fansipan — the Roof of Indochina.",
+        description_vi: "Sa Pa là thị trấn miền núi sương mù nổi tiếng với ruộng bậc thang và chợ phiên đầy màu sắc.",
+        price_level: 2, avg_rating: 4.6, num_reviews: 980,
+        best_for: "solo|couple|friends",
+        explanation: "Unmatched mountain scenery and cultural diversity — ideal for adventurous travelers.",
+      },
+    ];
+
+    function simulateDemo(query) {
+      const reply = DEMO_RESPONSES[Math.floor(Math.random() * DEMO_RESPONSES.length)];
+      appendBotMessage(reply);
+      appendRecommendations(DEMO_DESTINATIONS);
+    }
+
+    // ─────────────────────────── UI actions ──────────────────────────────────
+    function quickSearch(q) { sendMessage(q); }
+
+    function clearChat() {
+      chatEl().innerHTML = '';
+      appendBotMessage(t('clearMsg'));
+    }
+
+    function viewDetails(name) {
+      appendBotMessage(t('detailMsg')(name));
+    }
+
+    function handleKeyDown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    }
+
+    function toggleLanguage() {
+      lang = lang === 'en' ? 'vi' : 'en';
+      document.getElementById('langToggle').textContent = t('langLabel');
+      inputEl().placeholder = t('placeholder');
+      document.getElementById('inputHint').textContent = t('hint');
+    }
+
+    // ─────────────────────────── Boot ────────────────────────────────────────
+    setTimeout(() => appendBotMessage(t('greeting')),  300);
+    setTimeout(() => appendBotMessage(t('greeting2')), 950);
+  </script>
+</body>
+</html>
